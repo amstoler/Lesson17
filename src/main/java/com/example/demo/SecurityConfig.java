@@ -14,6 +14,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http
                 .authorizeRequests()
+                .antMatchers("/").access("hasAuthority('USER') or hasAuthority('ADMIN')")
+                .antMatchers("/admin").access("hasAuthority('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
@@ -25,8 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth)
         throws Exception {
 
-        auth.inMemoryAuthentication().
-                withUser("user").password("password").authorities("USER");
+        auth.inMemoryAuthentication().withUser("user").password("password").authorities("USER")
+                .and()
+                .withUser("ariel").password("begreat").authorities("ADMIN");
     }
 
 }
