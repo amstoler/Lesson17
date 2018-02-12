@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
                 .httpBasic();
     }
@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         throws Exception {
 
         auth.inMemoryAuthentication().
-                withUser("user").password("password").roles("USER");
+                withUser("user").password("password").authorities("USER");
     }
 
 }
